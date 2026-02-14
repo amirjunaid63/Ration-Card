@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ration Distribution System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>🏪 Ration Distribution</h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="#home" class="nav-link active">Home</a></li>
+                        <li><a href="#services" class="nav-link">Services</a></li>
+                        <li><a href="#eligibility" class="nav-link">Eligibility</a></li>
+                        <li><a href="#distribution" class="nav-link">Distribution</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                        <li><a href="customer-login.html" class="nav-link">Customer Login</a></li>
+                        <li><a href="admin-login.html" class="nav-link">Admin</a></li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu-btn">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Efficient Ration Distribution System</h2>
+                    <p>Ensuring food security for all eligible citizens through transparent and accessible distribution services.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="showApplicationForm()">Apply Now</button>
+                        <button class="btn btn-secondary" onclick="checkStatus()">Check Status</button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>50,000+</h3>
+                            <p>Beneficiaries</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>100+</h3>
+                            <p>Distribution Centers</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>24/7</h3>
+                            <p>Support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2 class="section-title">Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">📋</div>
+                        <h3>Ration Card Application</h3>
+                        <p>Apply for new ration cards with our simplified online application process.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🔄</div>
+                        <h3>Card Renewal</h3>
+                        <p>Easy renewal process for existing ration cards with minimal documentation.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📊</div>
+                        <h3>Distribution Tracking</h3>
+                        <p>Real-time tracking of ration distribution schedules and availability.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🏪</div>
+                        <h3>Center Locator</h3>
+                        <p>Find nearby distribution centers with detailed information and directions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="eligibility" class="eligibility">
+            <div class="container">
+                <h2 class="section-title">Eligibility Criteria</h2>
+                <div class="eligibility-content">
+                    <div class="eligibility-card">
+                        <h3>Below Poverty Line (BPL)</h3>
+                        <ul>
+                            <li>Annual family income below ₹27,000</li>
+                            <li>No ownership of land or property</li>
+                            <li>Valid identity proof required</li>
+                        </ul>
+                    </div>
+                    <div class="eligibility-card">
+                        <h3>Above Poverty Line (APL)</h3>
+                        <ul>
+                            <li>Annual family income between ₹27,000 - ₹1,00,000</li>
+                            <li>Basic documentation required</li>
+                            <li>Residential proof mandatory</li>
+                        </ul>
+                    </div>
+                    <div class="eligibility-card">
+                        <h3>Antyodaya Anna Yojana (AAY)</h3>
+                        <ul>
+                            <li>Destitute families with no stable income</li>
+                            <li>Elderly without support</li>
+                            <li>Disabled persons with no means</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="distribution" class="distribution">
+            <div class="container">
+                <h2 class="section-title">Distribution Schedule</h2>
+                <div class="distribution-table-container">
+                    <table class="distribution-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Wheat (kg)</th>
+                                <th>Rice (kg)</th>
+                                <th>Sugar (kg)</th>
+                                <th>Kerosene (L)</th>
+                                <th>Frequency</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>BPL</td>
+                                <td>35</td>
+                                <td>35</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>Monthly</td>
+                            </tr>
+                            <tr>
+                                <td>APL</td>
+                                <td>25</td>
+                                <td>25</td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>Monthly</td>
+                            </tr>
+                            <tr>
+                                <td>AAY</td>
+                                <td>35</td>
+                                <td>35</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>Monthly</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title">Contact Us</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <h3>📞 Helpline</h3>
+                            <p>1800-123-4567 (Toll Free)</p>
+                        </div>
+                        <div class="contact-item">
+                            <h3>📧 Email</h3>
+                            <p>support@ration.gov.in</p>
+                        </div>
+                        <div class="contact-item">
+                            <h3>🏢 Office Address</h3>
+                            <p>Food Corporation of India<br>New Delhi - 110001</p>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <h3>Send us a Message</h3>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <input type="text" id="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="phone" placeholder="Your Phone Number">
+                            </div>
+                            <div class="form-group">
+                                <textarea id="message" placeholder="Your Message" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Ration Distribution System</h3>
+                    <p>Ensuring food security for all citizens through transparent distribution.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#eligibility">Eligibility</a></li>
+                        <li><a href="#distribution">Distribution</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Important Links</h4>
+                    <ul>
+                        <li><a href="#">Government Portal</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Grievance Redressal</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Ration Distribution System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Application Form -->
+    <div id="applicationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Ration Card Application</h2>
+            <form id="applicationForm">
+                <div class="form-group">
+                    <label for="applicantName">Full Name</label>
+                    <input type="text" id="applicantName" required>
+                </div>
+                <div class="form-group">
+                    <label for="aadhar">Aadhar Number</label>
+                    <input type="text" id="aadhar" pattern="[0-9]{12}" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="">Select Category</option>
+                        <option value="bpl">BPL</option>
+                        <option value="apl">APL</option>
+                        <option value="aay">AAY</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="income">Annual Family Income</label>
+                    <input type="number" id="income" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Status Check -->
+    <div id="statusModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeStatusModal()">&times;</span>
+            <h2>Check Application Status</h2>
+            <form id="statusForm">
+                <div class="form-group">
+                    <label for="applicationId">Application ID</label>
+                    <input type="text" id="applicationId" required>
+                </div>
+                <div class="form-group">
+                    <label for="mobileNumber">Mobile Number</label>
+                    <input type="tel" id="mobileNumber" pattern="[0-9]{10}" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Check Status</button>
+                <div id="statusResult" class="status-result"></div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

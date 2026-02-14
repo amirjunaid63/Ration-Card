@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login - Ration Distribution System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .customer-login-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 450px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .customer-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102,126,234,0.3);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: #764ba2;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        .demo-credentials {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #2196f3;
+        }
+
+        .demo-credentials h4 {
+            color: #1976d2;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .demo-credentials p {
+            color: #666;
+            font-size: 0.85rem;
+            margin: 0.25rem 0;
+        }
+
+        .validation-info {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            border-left: 3px solid #667eea;
+        }
+
+        .validation-info h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .validation-info ul {
+            margin: 0;
+            padding-left: 1.2rem;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .validation-info li {
+            margin-bottom: 0.25rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 2rem;
+            }
+            
+            .login-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="customer-login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="customer-icon">👤</div>
+                <h1>Customer Login</h1>
+                <p>Ration Distribution System</p>
+            </div>
+
+            <div class="validation-info">
+                <h4>Required Information</h4>
+                <ul>
+                    <li>12-digit Aadhaar Card Number</li>
+                    <li>10-digit Mobile Number</li>
+                    <li>Ration Card Number</li>
+                </ul>
+            </div>
+
+            <div class="demo-credentials">
+                <h4>Demo Credentials</h4>
+                <p><strong>Aadhaar:</strong> 123456789012</p>
+                <p><strong>Mobile:</strong> 9876543210</p>
+                <p><strong>Ration Card:</strong> RC2024001</p>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+
+            <form id="customerLoginForm">
+                <div class="form-group">
+                    <label for="aadhaar">Aadhaar Card Number</label>
+                    <input type="text" id="aadhaar" name="aadhaar" required 
+                           placeholder="Enter 12-digit Aadhaar number" maxlength="12"
+                           pattern="[0-9]{12}">
+                    <div class="input-hint">Enter your 12-digit Aadhaar card number</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" name="mobile" required 
+                           placeholder="Enter 10-digit mobile number" maxlength="10"
+                           pattern="[0-9]{10}">
+                    <div class="input-hint">Enter your registered 10-digit mobile number</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="rationCard">Ration Card Number</label>
+                    <input type="text" id="rationCard" name="rationCard" required 
+                           placeholder="Enter ration card number">
+                    <div class="input-hint">Enter your ration card number</div>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">Login</button>
+            </form>
+
+            <div class="back-link">
+                <a href="index.html">← Back to Main Website</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo customer database
+        const demoCustomers = [
+            {
+                aadhaar: '123456789012',
+                mobile: '9876543210',
+                rationCard: 'RC2024001',
+                name: 'Rahul Kumar',
+                category: 'BPL',
+                address: '123 Main Street, Delhi',
+                familyMembers: 4
+            },
+            {
+                aadhaar: '234567890123',
+                mobile: '9876543211',
+                rationCard: 'RC2024002',
+                name: 'Priya Sharma',
+                category: 'APL',
+                address: '456 Park Avenue, Mumbai',
+                familyMembers: 3
+            },
+            {
+                aadhaar: '345678901234',
+                mobile: '9876543212',
+                rationCard: 'RC2024003',
+                name: 'Amit Singh',
+                category: 'AAY',
+                address: '789 Cross Road, Bangalore',
+                familyMembers: 5
+            }
+        ];
+
+        // Show message function
+        function showMessage(message, type) {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            
+            if (type === 'error') {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+            } else {
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+                errorDiv.style.display = 'none';
+            }
+
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+                successDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Validate Aadhaar number
+        function validateAadhaar(aadhaar) {
+            return /^\d{12}$/.test(aadhaar);
+        }
+
+        // Validate mobile number
+        function validateMobile(mobile) {
+            return /^[6-9]\d{9}$/.test(mobile);
+        }
+
+        // Validate ration card number
+        function validateRationCard(rationCard) {
+            return /^[A-Z]{2}\d{7}$/.test(rationCard) || /^[A-Z]{2}\d{4}$/.test(rationCard);
+        }
+
+        // Login form submission
+        document.getElementById('customerLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const aadhaar = document.getElementById('aadhaar').value;
+            const mobile = document.getElementById('mobile').value;
+            const rationCard = document.getElementById('rationCard').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            // Validate inputs
+            if (!validateAadhaar(aadhaar)) {
+                showMessage('Please enter a valid 12-digit Aadhaar number', 'error');
+                return;
+            }
+            
+            if (!validateMobile(mobile)) {
+                showMessage('Please enter a valid 10-digit mobile number', 'error');
+                return;
+            }
+            
+            if (!validateRationCard(rationCard)) {
+                showMessage('Please enter a valid ration card number', 'error');
+                return;
+            }
+            
+            // Disable button and show loading
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<span class="spinner"></span> Authenticating...';
+            
+            // Add spinner styles
+            if (!document.querySelector('#spinnerStyles')) {
+                const style = document.createElement('style');
+                style.id = 'spinnerStyles';
+                style.textContent = `
+                    .spinner {
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                        border: 2px solid #ffffff;
+                        border-radius: 50%;
+                        border-top-color: transparent;
+                        animation: spin 0.8s linear infinite;
+                        margin-right: 8px;
+                    }
+                    
+                    @keyframes spin {
+                        to { transform: rotate(360deg); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Simulate authentication delay
+            setTimeout(() => {
+                // Find customer in demo database
+                const customer = demoCustomers.find(c => 
+                    c.aadhaar === aadhaar && 
+                    c.mobile === mobile && 
+                    c.rationCard.toUpperCase() === rationCard.toUpperCase()
+                );
+                
+                if (customer) {
+                    // Store customer session
+                    sessionStorage.setItem('customerLoggedIn', 'true');
+                    sessionStorage.setItem('customerData', JSON.stringify(customer));
+                    sessionStorage.setItem('loginTime', new Date().toISOString());
+                    
+                    showMessage('Login successful! Redirecting to dashboard...', 'success');
+                    
+                    // Redirect to customer dashboard
+                    setTimeout(() => {
+                        window.location.href = 'customer-dashboard.html';
+                    }, 1500);
+                } else {
+                    showMessage('Invalid credentials. Please check your Aadhaar, mobile number, and ration card details.', 'error');
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Login';
+                }
+            }, 1500);
+        });
+
+        // Check if already logged in
+        window.addEventListener('load', function() {
+            if (sessionStorage.getItem('customerLoggedIn') === 'true') {
+                // Check if session is not expired (24 hours)
+                const loginTime = new Date(sessionStorage.getItem('loginTime'));
+                const now = new Date();
+                const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+                
+                if (hoursDiff < 24) {
+                    // Redirect to dashboard if session is valid
+                    window.location.href = 'customer-dashboard.html';
+                } else {
+                    // Clear expired session
+                    sessionStorage.removeItem('customerLoggedIn');
+                    sessionStorage.removeItem('customerData');
+                    sessionStorage.removeItem('loginTime');
+                }
+            }
+        });
+
+        // Input formatting and validation
+        document.getElementById('aadhaar').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').slice(0, 12);
+        });
+
+        document.getElementById('mobile').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').slice(0, 10);
+        });
+
+        document.getElementById('rationCard').addEventListener('input', function(e) {
+            this.value = this.value.toUpperCase();
+        });
+
+        // Add enter key support for form fields
+        document.getElementById('aadhaar').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.length === 12) {
+                document.getElementById('mobile').focus();
+            }
+        });
+
+        document.getElementById('mobile').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.length === 10) {
+                document.getElementById('rationCard').focus();
+            }
+        });
+
+        document.getElementById('rationCard').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginBtn').click();
+            }
+        });
+
+        // Prevent form resubmission on page refresh
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+</body>
+</html>
