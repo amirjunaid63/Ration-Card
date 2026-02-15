@@ -29,6 +29,70 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
+/* Admin Message Marquee Styles */
+.admin-marquee {
+    background: linear-gradient(90deg, #ff6b6b 0%, #feca57 100%);
+    padding: 0.75rem 0;
+    margin-top: 60px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.marquee-container {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.marquee-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+}
+
+.marquee-content {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee-message {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 30s linear infinite;
+    font-weight: 500;
+    color: white;
+    font-size: 0.95rem;
+    transition: opacity 0.3s ease;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Pause marquee on hover */
+.admin-marquee:hover .marquee-message {
+    animation-play-state: paused;
+}
+
 .nav-container {
     display: flex;
     justify-content: space-between;

@@ -28,6 +28,30 @@
             padding: 0 20px;
         }
 
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: rgba(255,255,255,0.2);
+        }
+
         .admin-logo h1 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -57,6 +81,14 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem 20px;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
         }
 
         .dashboard-stats {
@@ -310,6 +342,12 @@
                 flex-direction: column;
                 gap: 1rem;
             }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
@@ -320,6 +358,12 @@
                 <div class="admin-logo">
                     <h1>🏪 Admin Dashboard</h1>
                 </div>
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link active" data-section="dashboard">Dashboard</a></li>
+                    <li><a href="#" class="nav-link" data-section="messages">Messages</a></li>
+                    <li><a href="#" class="nav-link" data-section="locations">Locations</a></li>
+                    <li><a href="#" class="nav-link" data-section="addresses">Addresses</a></li>
+                </ul>
                 <div class="admin-user">
                     <span>Welcome, <strong id="adminUsername">Admin</strong></span>
                     <button class="logout-btn" onclick="logout()">Logout</button>
@@ -328,8 +372,10 @@
         </header>
 
         <div class="admin-container">
-            <!-- Dashboard Statistics -->
-            <div class="dashboard-stats">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="content-section active">
+                <!-- Dashboard Statistics -->
+                <div class="dashboard-stats">
                 <div class="stat-card">
                     <h3>Total Wheat Stock</h3>
                     <div class="value" id="totalWheat">15,000<span class="unit">kg</span></div>
@@ -468,6 +514,283 @@
                     </tbody>
                 </table>
             </section>
+            </div>
+
+            <!-- Messages Section -->
+            <div id="messages" class="content-section">
+                <div class="dashboard-content">
+                    <section class="message-section">
+                        <h2 class="section-title">Distributed Ration Messages</h2>
+                        <div id="messageAlert"></div>
+                        
+                        <!-- Send New Message -->
+                        <div class="dashboard-card">
+                            <h3>Send New Message</h3>
+                            <form id="messageForm" class="adjustment-form">
+                                <div class="form-group">
+                                    <label for="messageType">Message Type</label>
+                                    <select id="messageType" required>
+                                        <option value="">Select Type</option>
+                                        <option value="announcement">General Announcement</option>
+                                        <option value="distribution">Distribution Schedule</option>
+                                        <option value="emergency">Emergency Alert</option>
+                                        <option value="reminder">Collection Reminder</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="targetAudience">Target Audience</label>
+                                    <select id="targetAudience" required>
+                                        <option value="">Select Audience</option>
+                                        <option value="all">All Customers</option>
+                                        <option value="bpl">BPL Customers</option>
+                                        <option value="apl">APL Customers</option>
+                                        <option value="aay">AAY Customers</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="messageTitle">Message Title</label>
+                                    <input type="text" id="messageTitle" required placeholder="Enter message title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="messageContent">Message Content</label>
+                                    <textarea id="messageContent" rows="4" required placeholder="Enter your message"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Send Message</button>
+                                    <button type="button" class="btn btn-secondary" onclick="resetMessageForm()">Clear</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Message History -->
+                        <div class="dashboard-card">
+                            <h3>Message History</h3>
+                            <table class="log-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date & Time</th>
+                                        <th>Type</th>
+                                        <th>Audience</th>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="messageHistoryBody">
+                                    <tr>
+                                        <td class="log-time">2024-02-14 11:00 AM</td>
+                                        <td>Distribution Schedule</td>
+                                        <td>All Customers</td>
+                                        <td>February Ration Collection</td>
+                                        <td><span class="status-badge status-sent">Sent</span></td>
+                                        <td>
+                                            <button class="btn btn-danger" onclick="deleteMessage(0)">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="log-time">2024-02-10 09:30 AM</td>
+                                        <td>Reminder</td>
+                                        <td>BPL Customers</td>
+                                        <td>Collection Reminder</td>
+                                        <td><span class="status-badge status-sent">Sent</span></td>
+                                        <td>
+                                            <button class="btn btn-danger" onclick="deleteMessage(1)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Locations Section -->
+            <div id="locations" class="content-section">
+                <div class="dashboard-content">
+                    <section class="location-section">
+                        <h2 class="section-title">Distribution Center Locations</h2>
+                        <div id="locationAlert"></div>
+                        
+                        <!-- Add New Location -->
+                        <div class="dashboard-card">
+                            <h3>Add New Distribution Center</h3>
+                            <form id="locationForm" class="adjustment-form">
+                                <div class="form-group">
+                                    <label for="centerName">Center Name</label>
+                                    <input type="text" id="centerName" required placeholder="Enter center name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="centerAddress">Address</label>
+                                    <input type="text" id="centerAddress" required placeholder="Enter center address">
+                                </div>
+                                <div class="form-group">
+                                    <label for="centerCity">City</label>
+                                    <input type="text" id="centerCity" required placeholder="Enter city">
+                                </div>
+                                <div class="form-group">
+                                    <label for="centerPincode">Pincode</label>
+                                    <input type="text" id="centerPincode" required placeholder="Enter 6-digit pincode" maxlength="6" pattern="[0-9]{6}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="centerPhone">Contact Number</label>
+                                    <input type="tel" id="centerPhone" required placeholder="Enter 10-digit phone number" maxlength="10" pattern="[0-9]{10}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="centerCapacity">Daily Capacity</label>
+                                    <input type="number" id="centerCapacity" required placeholder="Enter daily capacity (customers)">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Add Center</button>
+                                    <button type="button" class="btn btn-secondary" onclick="resetLocationForm()">Clear</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Locations List -->
+                        <div class="dashboard-card">
+                            <h3>Distribution Centers</h3>
+                            <table class="log-table">
+                                <thead>
+                                    <tr>
+                                        <th>Center Name</th>
+                                        <th>Address</th>
+                                        <th>City</th>
+                                        <th>Contact</th>
+                                        <th>Capacity</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="locationsTableBody">
+                                    <tr>
+                                        <td>Distribution Center A</td>
+                                        <td>123 Main Street</td>
+                                        <td>Delhi</td>
+                                        <td>9876543210</td>
+                                        <td>200</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="editLocation(1)">Edit</button>
+                                            <button class="btn btn-danger" onclick="deleteLocation(1)">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Distribution Center B</td>
+                                        <td>456 Park Avenue</td>
+                                        <td>Mumbai</td>
+                                        <td>9876543211</td>
+                                        <td>150</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="editLocation(2)">Edit</button>
+                                            <button class="btn btn-danger" onclick="deleteLocation(2)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Addresses Section -->
+            <div id="addresses" class="content-section">
+                <div class="dashboard-content">
+                    <section class="address-section">
+                        <h2 class="section-title">Customer Address Management</h2>
+                        <div id="addressAlert"></div>
+                        
+                        <!-- Search Customer -->
+                        <div class="dashboard-card">
+                            <h3>Search Customer</h3>
+                            <form id="searchCustomerForm" class="adjustment-form">
+                                <div class="form-group">
+                                    <label for="searchRationCard">Ration Card Number</label>
+                                    <input type="text" id="searchRationCard" placeholder="Enter ration card number">
+                                </div>
+                                <div class="form-group">
+                                    <label for="searchAadhaar">Aadhaar Number</label>
+                                    <input type="text" id="searchAadhaar" placeholder="Enter 12-digit Aadhaar number" maxlength="12">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Search Customer</button>
+                                    <button type="button" class="btn btn-secondary" onclick="resetSearchForm()">Clear</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Customer Details and Address Update -->
+                        <div class="dashboard-card" id="customerDetailsCard" style="display: none;">
+                            <h3>Customer Details</h3>
+                            <div id="customerInfo"></div>
+                            <form id="addressUpdateForm" class="adjustment-form">
+                                <div class="form-group">
+                                    <label for="customerName">Customer Name</label>
+                                    <input type="text" id="customerName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerAddress">Current Address</label>
+                                    <textarea id="customerAddress" rows="3" required placeholder="Enter current address"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerCity">City</label>
+                                    <input type="text" id="customerCity" required placeholder="Enter city">
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerPincode">Pincode</label>
+                                    <input type="text" id="customerPincode" required placeholder="Enter 6-digit pincode" maxlength="6" pattern="[0-9]{6}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="customerPhone">Mobile Number</label>
+                                    <input type="tel" id="customerPhone" required placeholder="Enter 10-digit mobile number" maxlength="10" pattern="[0-9]{10}">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Update Address</button>
+                                    <button type="button" class="btn btn-secondary" onclick="resetAddressForm()">Clear</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- All Customers List -->
+                        <div class="dashboard-card">
+                            <h3>All Customers</h3>
+                            <table class="log-table">
+                                <thead>
+                                    <tr>
+                                        <th>Ration Card</th>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Mobile</th>
+                                        <th>Category</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customersTableBody">
+                                    <tr>
+                                        <td>RC2024001</td>
+                                        <td>Rahul Kumar</td>
+                                        <td>123 Main Street, Delhi</td>
+                                        <td>9876543210</td>
+                                        <td>BPL</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="viewCustomer('RC2024001')">View</button>
+                                            <button class="btn btn-secondary" onclick="editCustomer('RC2024001')">Edit</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>RC2024002</td>
+                                        <td>Priya Sharma</td>
+                                        <td>456 Park Avenue, Mumbai</td>
+                                        <td>9876543211</td>
+                                        <td>APL</td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="viewCustomer('RC2024002')">View</button>
+                                            <button class="btn btn-secondary" onclick="editCustomer('RC2024002')">Edit</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -502,6 +825,80 @@
                 item: 'Sugar',
                 quantity: '-200 kg',
                 reason: 'Damage/Spillage'
+            }
+        ];
+
+        // Message history array
+        let messageHistory = [
+            {
+                time: '2024-02-14 11:00 AM',
+                type: 'Distribution Schedule',
+                audience: 'All Customers',
+                title: 'February Ration Collection',
+                status: 'Sent'
+            },
+            {
+                time: '2024-02-10 09:30 AM',
+                type: 'Reminder',
+                audience: 'BPL Customers',
+                title: 'Collection Reminder',
+                status: 'Sent'
+            }
+        ];
+
+        // Distribution centers array
+        let distributionCenters = [
+            {
+                id: 1,
+                name: 'Distribution Center A',
+                address: '123 Main Street',
+                city: 'Delhi',
+                pincode: '110001',
+                phone: '9876543210',
+                capacity: 200
+            },
+            {
+                id: 2,
+                name: 'Distribution Center B',
+                address: '456 Park Avenue',
+                city: 'Mumbai',
+                pincode: '400001',
+                phone: '9876543211',
+                capacity: 150
+            }
+        ];
+
+        // Customer database
+        let customerDatabase = [
+            {
+                rationCard: 'RC2024001',
+                name: 'Rahul Kumar',
+                address: '123 Main Street, Delhi',
+                city: 'Delhi',
+                pincode: '110001',
+                phone: '9876543210',
+                aadhaar: '123456789012',
+                category: 'BPL'
+            },
+            {
+                rationCard: 'RC2024002',
+                name: 'Priya Sharma',
+                address: '456 Park Avenue, Mumbai',
+                city: 'Mumbai',
+                pincode: '400001',
+                phone: '9876543211',
+                aadhaar: '234567890123',
+                category: 'APL'
+            },
+            {
+                rationCard: 'RC2024003',
+                name: 'Amit Singh',
+                address: '789 Cross Road, Bangalore',
+                city: 'Bangalore',
+                pincode: '560001',
+                phone: '9876543212',
+                aadhaar: '345678901234',
+                category: 'AAY'
             }
         ];
 
@@ -710,7 +1107,351 @@
             // Initialize displays
             updateStockDisplay();
             updateActivityLog();
+            initializeNavigation();
+            initializeMessageSystem();
+            initializeLocationSystem();
+            initializeAddressSystem();
         });
+
+        // Navigation functionality
+        function initializeNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetSection = this.getAttribute('data-section');
+
+                    // Update active nav link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Show target section
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetSection) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+        }
+
+        // Message System
+        function initializeMessageSystem() {
+            // Message form submission
+            document.getElementById('messageForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const messageType = document.getElementById('messageType').value;
+                const targetAudience = document.getElementById('targetAudience').value;
+                const messageTitle = document.getElementById('messageTitle').value;
+                const messageContent = document.getElementById('messageContent').value;
+
+                // Add to message history
+                const now = new Date();
+                const timeString = now.toLocaleString('en-US', { 
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+
+                const newMessage = {
+                    time: timeString,
+                    type: messageType.charAt(0).toUpperCase() + messageType.slice(1),
+                    audience: targetAudience.toUpperCase(),
+                    title: messageTitle,
+                    status: 'Sent'
+                };
+
+                messageHistory.unshift(newMessage);
+                updateMessageHistory();
+                
+                // Send message to marquee system
+                sendToMarquee(`${messageTitle}: ${messageContent}`);
+                
+                showAlert('Message sent successfully!', 'success', 'messageAlert');
+                this.reset();
+            });
+        }
+
+        function updateMessageHistory() {
+            const tbody = document.getElementById('messageHistoryBody');
+            tbody.innerHTML = '';
+
+            messageHistory.forEach((message, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="log-time">${message.time}</td>
+                    <td>${message.type}</td>
+                    <td>${message.audience}</td>
+                    <td>${message.title}</td>
+                    <td><span class="status-badge status-sent">${message.status}</span></td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteMessage(${index})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function resetMessageForm() {
+            document.getElementById('messageForm').reset();
+        }
+
+        // Delete message function
+        function deleteMessage(index) {
+            const message = messageHistory[index];
+            if (message) {
+                if (confirm(`Are you sure you want to delete this message?\n\nTitle: ${message.title}\nTime: ${message.time}\nAudience: ${message.audience}`)) {
+                    // Remove from array
+                    messageHistory.splice(index, 1);
+                    
+                    // Update display
+                    updateMessageHistory();
+                    
+                    // Show success message
+                    showAlert('Message deleted successfully!', 'success', 'messageAlert');
+                    
+                    // Also remove from marquee messages if it exists
+                    removeFromMarquee(message.title);
+                }
+            }
+        }
+
+        // Remove message from marquee system
+        function removeFromMarquee(messageTitle) {
+            // Remove from localStorage messages
+            const storedMessages = localStorage.getItem('adminMessages');
+            if (storedMessages) {
+                try {
+                    const messages = JSON.parse(storedMessages);
+                    const updatedMessages = messages.filter(msg => !msg.includes(messageTitle));
+                    localStorage.setItem('adminMessages', JSON.stringify(updatedMessages));
+                } catch (e) {
+                    console.log('Error removing message from marquee:', e);
+                }
+            }
+        }
+
+        // Location System
+        function initializeLocationSystem() {
+            // Location form submission
+            document.getElementById('locationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const newCenter = {
+                    id: distributionCenters.length + 1,
+                    name: document.getElementById('centerName').value,
+                    address: document.getElementById('centerAddress').value,
+                    city: document.getElementById('centerCity').value,
+                    pincode: document.getElementById('centerPincode').value,
+                    phone: document.getElementById('centerPhone').value,
+                    capacity: parseInt(document.getElementById('centerCapacity').value)
+                };
+
+                distributionCenters.push(newCenter);
+                updateLocationsTable();
+                
+                showAlert('Distribution center added successfully!', 'success', 'locationAlert');
+                this.reset();
+            });
+
+            updateLocationsTable();
+        }
+
+        function updateLocationsTable() {
+            const tbody = document.getElementById('locationsTableBody');
+            tbody.innerHTML = '';
+
+            distributionCenters.forEach(center => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${center.name}</td>
+                    <td>${center.address}</td>
+                    <td>${center.city}</td>
+                    <td>${center.phone}</td>
+                    <td>${center.capacity}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="editLocation(${center.id})">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteLocation(${center.id})">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function editLocation(id) {
+            const center = distributionCenters.find(c => c.id === id);
+            if (center) {
+                document.getElementById('centerName').value = center.name;
+                document.getElementById('centerAddress').value = center.address;
+                document.getElementById('centerCity').value = center.city;
+                document.getElementById('centerPincode').value = center.pincode;
+                document.getElementById('centerPhone').value = center.phone;
+                document.getElementById('centerCapacity').value = center.capacity;
+                
+                // Scroll to form
+                document.getElementById('locationForm').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function deleteLocation(id) {
+            if (confirm('Are you sure you want to delete this distribution center?')) {
+                distributionCenters = distributionCenters.filter(c => c.id !== id);
+                updateLocationsTable();
+                showAlert('Distribution center deleted successfully!', 'success', 'locationAlert');
+            }
+        }
+
+        function resetLocationForm() {
+            document.getElementById('locationForm').reset();
+        }
+
+        // Address System
+        function initializeAddressSystem() {
+            // Search customer form
+            document.getElementById('searchCustomerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const rationCard = document.getElementById('searchRationCard').value.toUpperCase();
+                const aadhaar = document.getElementById('searchAadhaar').value;
+                
+                let customer = null;
+                if (rationCard) {
+                    customer = customerDatabase.find(c => c.rationCard === rationCard);
+                } else if (aadhaar) {
+                    customer = customerDatabase.find(c => c.aadhaar === aadhaar);
+                }
+                
+                if (customer) {
+                    displayCustomerDetails(customer);
+                } else {
+                    showAlert('Customer not found!', 'error', 'addressAlert');
+                }
+            });
+
+            // Address update form
+            document.getElementById('addressUpdateForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const rationCard = document.getElementById('customerName').getAttribute('data-rationcard');
+                const customer = customerDatabase.find(c => c.rationCard === rationCard);
+                
+                if (customer) {
+                    customer.name = document.getElementById('customerName').value;
+                    customer.address = document.getElementById('customerAddress').value;
+                    customer.city = document.getElementById('customerCity').value;
+                    customer.pincode = document.getElementById('customerPincode').value;
+                    customer.phone = document.getElementById('customerPhone').value;
+                    
+                    updateCustomersTable();
+                    showAlert('Customer address updated successfully!', 'success', 'addressAlert');
+                    this.reset();
+                    document.getElementById('customerDetailsCard').style.display = 'none';
+                }
+            });
+
+            updateCustomersTable();
+        }
+
+        function displayCustomerDetails(customer) {
+            const customerInfo = document.getElementById('customerInfo');
+            customerInfo.innerHTML = `
+                <div class="info-list">
+                    <div class="info-item">
+                        <strong>Ration Card:</strong> ${customer.rationCard}
+                    </div>
+                    <div class="info-item">
+                        <strong>Aadhaar:</strong> ${customer.aadhaar}
+                    </div>
+                    <div class="info-item">
+                        <strong>Category:</strong> ${customer.category}
+                    </div>
+                </div>
+            `;
+            
+            // Fill form fields
+            document.getElementById('customerName').value = customer.name;
+            document.getElementById('customerName').setAttribute('data-rationcard', customer.rationCard);
+            document.getElementById('customerAddress').value = customer.address;
+            document.getElementById('customerCity').value = customer.city;
+            document.getElementById('customerPincode').value = customer.pincode;
+            document.getElementById('customerPhone').value = customer.phone;
+            
+            // Show customer details card
+            document.getElementById('customerDetailsCard').style.display = 'block';
+            document.getElementById('customerDetailsCard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateCustomersTable() {
+            const tbody = document.getElementById('customersTableBody');
+            tbody.innerHTML = '';
+
+            customerDatabase.forEach(customer => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${customer.rationCard}</td>
+                    <td>${customer.name}</td>
+                    <td>${customer.address}</td>
+                    <td>${customer.phone}</td>
+                    <td>${customer.category}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="viewCustomer('${customer.rationCard}')">View</button>
+                        <button class="btn btn-secondary" onclick="editCustomer('${customer.rationCard}')">Edit</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function viewCustomer(rationCard) {
+            const customer = customerDatabase.find(c => c.rationCard === rationCard);
+            if (customer) {
+                displayCustomerDetails(customer);
+            }
+        }
+
+        function editCustomer(rationCard) {
+            const customer = customerDatabase.find(c => c.rationCard === rationCard);
+            if (customer) {
+                displayCustomerDetails(customer);
+            }
+        }
+
+        function resetSearchForm() {
+            document.getElementById('searchCustomerForm').reset();
+            document.getElementById('customerDetailsCard').style.display = 'none';
+        }
+
+        function resetAddressForm() {
+            document.getElementById('addressUpdateForm').reset();
+        }
+
+        // Send message to marquee system
+        function sendToMarquee(message) {
+            // Store message for marquee to pick up
+            const existingUpdates = localStorage.getItem('adminMessageUpdates');
+            const updates = existingUpdates ? JSON.parse(existingUpdates) : [];
+            updates.push(message);
+            localStorage.setItem('adminMessageUpdates', JSON.stringify(updates));
+            
+            // Also update main messages array directly if on same page
+            if (window.opener || window.parent !== window) {
+                try {
+                    window.parent.postMessage({
+                        type: 'adminMessage',
+                        message: message
+                    }, '*');
+                } catch (e) {
+                    console.log('Could not send message to parent:', e);
+                }
+            }
+        }
 
         // Prevent back button after logout
         window.addEventListener('popstate', function() {

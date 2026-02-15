@@ -1,3 +1,107 @@
+// Admin Message Marquee System
+class AdminMarquee {
+    constructor() {
+        this.messages = [
+            
+        ];
+        this.currentMessageIndex = 0;
+        this.marqueeElement = null;
+        this.init();
+    }
+
+    init() {
+        this.marqueeElement = document.getElementById('marqueeContent');
+        if (this.marqueeElement) {
+            this.loadMessagesFromStorage();
+            this.startMessageRotation();
+            this.checkForUpdates();
+        }
+    }
+
+    loadMessagesFromStorage() {
+        const storedMessages = localStorage.getItem('adminMessages');
+        if (storedMessages) {
+            try {
+                const parsedMessages = JSON.parse(storedMessages);
+                if (parsedMessages.length > 0) {
+                    this.messages = [...parsedMessages, ...this.messages];
+                }
+            } catch (e) {
+                console.log('Error loading stored messages:', e);
+            }
+        }
+    }
+
+    startMessageRotation() {
+        this.updateMessage();
+        setInterval(() => {
+            this.updateMessage();
+        }, 10000); // Change message every 10 seconds
+    }
+
+    updateMessage() {
+        if (this.marqueeElement) {
+            const message = this.messages[this.currentMessageIndex];
+            const messageSpan = this.marqueeElement.querySelector('.marquee-message');
+            if (messageSpan) {
+                // Add fade out effect
+                messageSpan.style.opacity = '0';
+                
+                setTimeout(() => {
+                    messageSpan.textContent = message;
+                    // Add fade in effect
+                    messageSpan.style.opacity = '1';
+                }, 300);
+            }
+            
+            this.currentMessageIndex = (this.currentMessageIndex + 1) % this.messages.length;
+        }
+    }
+
+    addMessage(message) {
+        this.messages.unshift(message);
+        this.saveMessagesToStorage();
+        this.updateMessage();
+    }
+
+    saveMessagesToStorage() {
+        try {
+            localStorage.setItem('adminMessages', JSON.stringify(this.messages.slice(0, 10))); // Keep only last 10 messages
+        } catch (e) {
+            console.log('Error saving messages:', e);
+        }
+    }
+
+    checkForUpdates() {
+        // Check for new messages from admin dashboard every 30 seconds
+        setInterval(() => {
+            this.syncWithAdminMessages();
+        }, 30000);
+    }
+
+    syncWithAdminMessages() {
+        // In a real application, this would fetch from server
+        // For demo, we'll check localStorage for updates from admin
+        const adminUpdates = localStorage.getItem('adminMessageUpdates');
+        if (adminUpdates) {
+            try {
+                const updates = JSON.parse(adminUpdates);
+                updates.forEach(update => {
+                    this.addMessage(update);
+                });
+                localStorage.removeItem('adminMessageUpdates'); // Clear after processing
+            } catch (e) {
+                console.log('Error processing admin updates:', e);
+            }
+        }
+    }
+}
+
+// Initialize marquee when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    window.adminMarquee = new AdminMarquee();
+});
+
 // Mobile Menu Toggle
 const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
 const navUl = document.querySelector('.nav ul');
