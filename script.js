@@ -126,19 +126,98 @@ function showBookingSuccess(data) {
         'alignment': '3D Wheel Alignment - ₹899'
     };
     
+    // Generate booking ID
+    const bookingId = 'BK' + String(Date.now()).slice(-6);
+    
+    // Save booking to localStorage for admin panel
+    const bookingData = {
+        id: bookingId,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        service: serviceNames[data.service],
+        date: data.date,
+        time: data.time,
+        status: 'pending',
+        message: data.message || '',
+        createdAt: new Date().toISOString()
+    };
+    
+    // Initialize API service
+    const apiService = new ApiService();
+    
+    // Save to database
+    apiService.createBooking(bookingData).then(result => {
+        if (result.success) {
+            console.log('Booking saved to database successfully');
+        } else {
+            console.error('Failed to save booking to database:', result.message);
+            // Fallback to localStorage if database fails
+            let existingBookings = JSON.parse(localStorage.getItem('carWashBookings') || '[]');
+            existingBookings.push(bookingData);
+            localStorage.setItem('carWashBookings', JSON.stringify(existingBookings));
+        }
+    });
+    
+    // Get existing bookings or create new array (fallback)
+    let existingBookings = JSON.parse(localStorage.getItem('carWashBookings') || '[]');
+    existingBookings.push(bookingData);
+    localStorage.setItem('carWashBookings', JSON.stringify(existingBookings));
+    
+    // Trigger storage event for admin panel if it's open
+    if (window.opener || window.parent !== window) {
+        window.parent.postMessage({
+            type: 'newBooking',
+            data: bookingData
+        }, '*');
+    }
+    
+    // Store in localStorage for admin to retrieve
+    localStorage.setItem('newBooking', JSON.stringify(bookingData));
+    
+    // Trigger storage event for admin panel
+    window.dispatchEvent(new StorageEvent('storage', {
+        key: 'newBooking',
+        newValue: JSON.stringify(bookingData)
+    }));
+    
+    // Show enhanced success message with booking ID
     const message = `
-        <h3>Booking Confirmed!</h3>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Phone:</strong> ${data.phone}</p>
-        <p><strong>Service:</strong> ${serviceNames[data.service]}</p>
-        <p><strong>Date:</strong> ${formatDate(data.date)}</p>
-        <p><strong>Time:</strong> ${formatTime(data.time)}</p>
-        ${data.message ? `<p><strong>Notes:</strong> ${data.message}</p>` : ''}
-        <p>We'll send you a confirmation email shortly!</p>
+        <div style="text-align: center;">
+            <div style="font-size: 3rem; color: #10b981; margin-bottom: 1rem;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 style="color: #10b981; margin-bottom: 1rem;">Booking Confirmed!</h3>
+            <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #10b981;">
+                <p style="margin: 0; font-weight: 600; color: #065f46;">Booking ID: <span style="font-family: monospace; font-size: 1.1rem;">${bookingId}</span></p>
+            </div>
+            <div style="text-align: left; margin: 1.5rem 0;">
+                <p><strong>Name:</strong> ${data.name}</p>
+                <p><strong>Email:</strong> ${data.email}</p>
+                <p><strong>Phone:</strong> ${data.phone}</p>
+                <p><strong>Service:</strong> ${serviceNames[data.service]}</p>
+                <p><strong>Date:</strong> ${formatDate(data.date)}</p>
+                <p><strong>Time:</strong> ${formatTime(data.time)}</p>
+                ${data.message ? `<p><strong>Notes:</strong> ${data.message}</p>` : ''}
+            </div>
+            <div style="background: #fef3c7; padding: 1rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid #f59e0b;">
+                <p style="margin: 0; color: #92400e;">
+                    <i class="fas fa-info-circle"></i> <strong>Status:</strong> Your booking is <strong>Pending</strong>. We will confirm your appointment shortly.
+                </p>
+            </div>
+            <p style="margin-top: 1.5rem; color: #666;">
+                <i class="fas fa-envelope"></i> A confirmation email has been sent to your registered email address.
+            </p>
+        </div>
     `;
     
-    showNotification(message, 'success', 5000);
+    showNotification(message, 'success', 8000);
+    
+    // Reset form after successful booking
+    document.getElementById('bookingForm').reset();
+    
+    // Show booking summary in console for debugging
+    console.log('New booking created:', bookingData);
 }
 
 // Contact Form Handler
