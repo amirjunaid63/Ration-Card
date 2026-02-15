@@ -3,307 +3,440 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ration Distribution System</title>
+    <title>Hind Car Wash - Premium Car Care Services</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .map-container {
+            width: 100%;
+            height: 400px;
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
+    <!-- Header -->
     <header class="header">
-        <div class="container">
+        <nav class="navbar">
             <div class="nav-container">
-                <div class="logo">
-                    <h1>🏪 Ration Distribution</h1>
+                <div class="nav-logo">
+                    <i class="fas fa-car"></i>
+                    <span>Hind Car Wash</span>
                 </div>
-                <nav class="nav">
-                    <ul>
-                        <li><a href="#home" class="nav-link active">Home</a></li>
-                        <li><a href="#services" class="nav-link">Services</a></li>
-                        <li><a href="#eligibility" class="nav-link">Eligibility</a></li>
-                        <li><a href="#distribution" class="nav-link">Distribution</a></li>
-                        <li><a href="#contact" class="nav-link">Contact</a></li>
-                        <li><a href="customer-login.html" class="nav-link">Customer Login</a></li>
-                        <li><a href="admin-login.html" class="nav-link">Admin</a></li>
-                    </ul>
-                </nav>
-                <button class="mobile-menu-btn">☰</button>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#services" class="nav-link">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#pricing" class="nav-link">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contact" class="nav-link">Contact</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
             </div>
-        </div>
+        </nav>
     </header>
 
-    <!-- Admin Message Marquee -->
-    <section class="admin-marquee">
-        <div class="marquee-container">
-            <div class="marquee-icon">📢</div>
-            <div class="marquee-content" id="marqueeContent">
-                <span class="marquee-message"></span>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Premium Car Wash Services</h1>
+            <p class="hero-subtitle">Professional car care that makes your vehicle shine like new</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="scrollToSection('booking')">Book Now</button>
+                <button class="btn btn-secondary" onclick="scrollToSection('services')">Our Services</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <i class="fas fa-car-side"></i>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <p class="section-subtitle">Choose from our range of professional car care services</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-soap"></i>
+                    </div>
+                    <h3>Basic Wash</h3>
+                    <p>Exterior wash with premium cleaning products and quick dry service</p>
+                    <ul class="service-features">
+                        <li>Exterior wash</li>
+                        <li>Tire cleaning</li>
+                        <li>Quick dry</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Premium Wash</h3>
+                    <p>Complete interior and exterior cleaning with wax protection</p>
+                    <ul class="service-features">
+                        <li>Full exterior wash</li>
+                        <li>Interior vacuum</li>
+                        <li>Wax protection</li>
+                        <li>Tire shine</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Deluxe Detail</h3>
+                    <p>Complete detailing service for showroom-quality results</p>
+                    <ul class="service-features">
+                        <li>Complete detailing</li>
+                        <li>Interior deep clean</li>
+                        <li>Paint protection</li>
+                        <li>Engine cleaning</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>3D Wheel Alignment & Balancing</h3>
+                    <p>Advanced 3D wheel alignment and balancing for optimal performance and safety</p>
+                    <ul class="service-features">
+                        <li>3D wheel alignment</li>
+                        <li>Wheel balancing</li>
+                        <li>Tire rotation</li>
+                        <li>Suspension check</li>
+                        <li>Performance optimization</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h2>Efficient Ration Distribution System</h2>
-                    <p>Ensuring food security for all eligible citizens through transparent and accessible distribution services.</p>
-                    <div class="hero-buttons">
-                        <button class="btn btn-primary" onclick="showApplicationForm()">Apply Now</button>
-                        <button class="btn btn-secondary" onclick="checkStatus()">Check Status</button>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <h3>50,000+</h3>
-                            <p>Beneficiaries</p>
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About Hind Car Wash</h2>
+                    <p>With over 10 years of experience in car care, we pride ourselves on delivering exceptional service that exceeds customer expectations. Our team of trained professionals uses only the best products and equipment to ensure your vehicle receives the care it deserves.</p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <h3>5000+</h3>
+                            <p>Happy Customers</p>
                         </div>
-                        <div class="stat-card">
-                            <h3>100+</h3>
-                            <p>Distribution Centers</p>
+                        <div class="stat">
+                            <h3>10+</h3>
+                            <p>Years Experience</p>
                         </div>
-                        <div class="stat-card">
+                        <div class="stat">
                             <h3>24/7</h3>
-                            <p>Support</p>
+                            <p>Service Available</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="services" class="services">
-            <div class="container">
-                <h2 class="section-title">Our Services</h2>
-                <div class="services-grid">
-                    <div class="service-card">
-                        <div class="service-icon">📋</div>
-                        <h3>Ration Card Application</h3>
-                        <p>Apply for new ration cards with our simplified online application process.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🔄</div>
-                        <h3>Card Renewal</h3>
-                        <p>Easy renewal process for existing ration cards with minimal documentation.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">📊</div>
-                        <h3>Distribution Tracking</h3>
-                        <p>Real-time tracking of ration distribution schedules and availability.</p>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">🏪</div>
-                        <h3>Center Locator</h3>
-                        <p>Find nearby distribution centers with detailed information and directions.</p>
-                    </div>
+                <div class="about-image">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="eligibility" class="eligibility">
-            <div class="container">
-                <h2 class="section-title">Eligibility Criteria</h2>
-                <div class="eligibility-content">
-                    <div class="eligibility-card">
-                        <h3>Below Poverty Line (BPL)</h3>
-                        <ul>
-                            <li>Annual family income below ₹27,000</li>
-                            <li>No ownership of land or property</li>
-                            <li>Valid identity proof required</li>
-                        </ul>
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Pricing Plans</h2>
+            <p class="section-subtitle">Transparent pricing with no hidden charges</p>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Basic Wash</h3>
+                    <div class="price">
+                        <span class="currency">₹</span>
+                        <span class="amount">299</span>
+                        <span class="period">/wash</span>
                     </div>
-                    <div class="eligibility-card">
-                        <h3>Above Poverty Line (APL)</h3>
-                        <ul>
-                            <li>Annual family income between ₹27,000 - ₹1,00,000</li>
-                            <li>Basic documentation required</li>
-                            <li>Residential proof mandatory</li>
-                        </ul>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Exterior wash</li>
+                        <li><i class="fas fa-check"></i> Tire cleaning</li>
+                        <li><i class="fas fa-check"></i> Quick dry</li>
+                        <li><i class="fas fa-times"></i> Interior cleaning</li>
+                        <li><i class="fas fa-times"></i> Wax protection</li>
+                    </ul>
+                    <button class="btn btn-outline">Choose Plan</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="badge">Popular</div>
+                    <h3>Premium Wash</h3>
+                    <div class="price">
+                        <span class="currency">₹</span>
+                        <span class="amount">599</span>
+                        <span class="period">/wash</span>
                     </div>
-                    <div class="eligibility-card">
-                        <h3>Antyodaya Anna Yojana (AAY)</h3>
-                        <ul>
-                            <li>Destitute families with no stable income</li>
-                            <li>Elderly without support</li>
-                            <li>Disabled persons with no means</li>
-                        </ul>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Full exterior wash</li>
+                        <li><i class="fas fa-check"></i> Interior vacuum</li>
+                        <li><i class="fas fa-check"></i> Wax protection</li>
+                        <li><i class="fas fa-check"></i> Tire shine</li>
+                        <li><i class="fas fa-times"></i> Engine cleaning</li>
+                    </ul>
+                    <button class="btn btn-primary">Choose Plan</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Deluxe Detail</h3>
+                    <div class="price">
+                        <span class="currency">₹</span>
+                        <span class="amount">1299</span>
+                        <span class="period">/detail</span>
                     </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Complete detailing</li>
+                        <li><i class="fas fa-check"></i> Interior deep clean</li>
+                        <li><i class="fas fa-check"></i> Paint protection</li>
+                        <li><i class="fas fa-check"></i> Engine cleaning</li>
+                        <li><i class="fas fa-check"></i> Air freshener</li>
+                    </ul>
+                    <button class="btn btn-outline">Choose Plan</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>3D Wheel Alignment</h3>
+                    <div class="price">
+                        <span class="currency">₹</span>
+                        <span class="amount">899</span>
+                        <span class="period">/service</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 3D wheel alignment</li>
+                        <li><i class="fas fa-check"></i> Wheel balancing</li>
+                        <li><i class="fas fa-check"></i> Tire rotation</li>
+                        <li><i class="fas fa-check"></i> Suspension check</li>
+                        <li><i class="fas fa-check"></i> Performance report</li>
+                    </ul>
+                    <button class="btn btn-outline">Choose Plan</button>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="distribution" class="distribution">
-            <div class="container">
-                <h2 class="section-title">Distribution Schedule</h2>
-                <div class="distribution-table-container">
-                    <table class="distribution-table">
-                        <thead>
-                            <tr>
-                                <th>Category</th>
-                                <th>Wheat (kg)</th>
-                                <th>Rice (kg)</th>
-                                <th>Sugar (kg)</th>
-                                <th>Kerosene (L)</th>
-                                <th>Frequency</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>BPL</td>
-                                <td>35</td>
-                                <td>35</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>Monthly</td>
-                            </tr>
-                            <tr>
-                                <td>APL</td>
-                                <td>25</td>
-                                <td>25</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>Monthly</td>
-                            </tr>
-                            <tr>
-                                <td>AAY</td>
-                                <td>35</td>
-                                <td>35</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>Monthly</td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <!-- Booking Section -->
+    <section id="booking" class="booking">
+        <div class="container">
+            <h2 class="section-title">Book Your Service</h2>
+            <p class="section-subtitle">Schedule your car wash appointment in just a few clicks</p>
+            
+            <form class="booking-form" id="bookingForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
-            </div>
-        </section>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="service">Select Service</label>
+                    <select id="service" name="service" required>
+                        <option value="">Choose a service</option>
+                        <option value="basic">Basic Wash - ₹299</option>
+                        <option value="premium">Premium Wash - ₹599</option>
+                        <option value="deluxe">Deluxe Detail - ₹1299</option>
+                        <option value="alignment">3D Wheel Alignment - ₹899</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="time">Preferred Time</label>
+                    <select id="time" name="time" required>
+                        <option value="">Select time</option>
+                        <option value="09:00">9:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="13:00">1:00 PM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                        <option value="17:00">5:00 PM</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Additional Notes</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">Book Appointment</button>
+            </form>
+        </div>
+    </section>
 
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2 class="section-title">Contact Us</h2>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <h3>📞 Helpline</h3>
-                            <p>1800-123-4567 (Toll Free)</p>
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <p class="section-subtitle">Get in touch with us for any inquiries</p>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Location</h3>
+                            <p>123 Main Street, City Center, State 12345</p>
                         </div>
-                        <div class="contact-item">
-                            <h3>📧 Email</h3>
-                            <p>support@ration.gov.in</p>
-                        </div>
-                        <div class="contact-item">
-                            <h3>🏢 Office Address</h3>
-                            <p>Food Corporation of India<br>New Delhi - 110001</p>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h3>Phone</h3>
+                            <p>+1 (555) 123-4567</p>
                         </div>
                     </div>
-                    <div class="contact-form">
-                        <h3>Send us a Message</h3>
-                        <form id="contactForm">
-                            <div class="form-group">
-                                <input type="text" id="name" placeholder="Your Name" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" id="email" placeholder="Your Email" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" id="phone" placeholder="Your Phone Number">
-                            </div>
-                            <div class="form-group">
-                                <textarea id="message" placeholder="Your Message" rows="4" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Send Message</button>
-                        </form>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>info@hindcarwash.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Working Hours</h3>
+                            <p>Monday - Saturday: 8:00 AM - 7:00 PM</p>
+                            <p>Sunday: 9:00 AM - 5:00 PM</p>
+                        </div>
                     </div>
                 </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                    </form>
+                </div>
             </div>
-        </section>
-    </main>
+            
+            <!-- Google Map -->
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.6874884247!2d-74.01234567890123!3d40.71234567890123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a316bb8c5b5%3A0x4b7b8b8b8b8b8b8b!2s123%20Main%20Street%2C%20New%20York%2C%20NY%2010001!5e0!3m2!1sen!2sus!4v1234567890"
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Ration Distribution System</h3>
-                    <p>Ensuring food security for all citizens through transparent distribution.</p>
+                    <div class="footer-logo">
+                        <i class="fas fa-car"></i>
+                        <span>Hind Car Wash</span>
+                    </div>
+                    <p>Your trusted partner for professional car care services.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
                 </div>
+                
                 <div class="footer-section">
-                    <h4>Quick Links</h4>
+                    <h3>Quick Links</h3>
                     <ul>
                         <li><a href="#home">Home</a></li>
                         <li><a href="#services">Services</a></li>
-                        <li><a href="#eligibility">Eligibility</a></li>
-                        <li><a href="#distribution">Distribution</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-section">
-                    <h4>Important Links</h4>
+                    <h3>Services</h3>
                     <ul>
-                        <li><a href="#">Government Portal</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Grievance Redressal</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#services">Basic Wash</a></li>
+                        <li><a href="#services">Premium Wash</a></li>
+                        <li><a href="#services">Deluxe Detail</a></li>
+                        <li><a href="#services">3D Wheel Alignment</a></li>
+                        <li><a href="#booking">Book Now</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> info@hindcarwash.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Main Street, City Center</li>
                     </ul>
                 </div>
             </div>
+            
             <div class="footer-bottom">
-                <p>&copy; 2024 Ration Distribution System. All rights reserved.</p>
+                <p>&copy; 2026 Hind Car Wash. All rights reserved.</p>
             </div>
         </div>
     </footer>
-
-    <!-- Modal for Application Form -->
-    <div id="applicationModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Ration Card Application</h2>
-            <form id="applicationForm">
-                <div class="form-group">
-                    <label for="applicantName">Full Name</label>
-                    <input type="text" id="applicantName" required>
-                </div>
-                <div class="form-group">
-                    <label for="aadhar">Aadhar Number</label>
-                    <input type="text" id="aadhar" pattern="[0-9]{12}" required>
-                </div>
-                <div class="form-group">
-                    <label for="category">Category</label>
-                    <select id="category" required>
-                        <option value="">Select Category</option>
-                        <option value="bpl">BPL</option>
-                        <option value="apl">APL</option>
-                        <option value="aay">AAY</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <textarea id="address" rows="3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="income">Annual Family Income</label>
-                    <input type="number" id="income" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit Application</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal for Status Check -->
-    <div id="statusModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeStatusModal()">&times;</span>
-            <h2>Check Application Status</h2>
-            <form id="statusForm">
-                <div class="form-group">
-                    <label for="applicationId">Application ID</label>
-                    <input type="text" id="applicationId" required>
-                </div>
-                <div class="form-group">
-                    <label for="mobileNumber">Mobile Number</label>
-                    <input type="tel" id="mobileNumber" pattern="[0-9]{10}" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Check Status</button>
-                <div id="statusResult" class="status-result"></div>
-            </form>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>

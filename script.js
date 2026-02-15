@@ -1,343 +1,222 @@
-// Admin Message Marquee System
-class AdminMarquee {
-    constructor() {
-        this.messages = [
-            
-        ];
-        this.currentMessageIndex = 0;
-        this.marqueeElement = null;
-        this.init();
-    }
+// Mobile Navigation Toggle
+const hamburger = document.querySelector('.hamburger');
+const navMenu = document.querySelector('.nav-menu');
+const navLinks = document.querySelectorAll('.nav-link');
 
-    init() {
-        this.marqueeElement = document.getElementById('marqueeContent');
-        if (this.marqueeElement) {
-            this.loadMessagesFromStorage();
-            this.startMessageRotation();
-            this.checkForUpdates();
-        }
-    }
-
-    loadMessagesFromStorage() {
-        const storedMessages = localStorage.getItem('adminMessages');
-        if (storedMessages) {
-            try {
-                const parsedMessages = JSON.parse(storedMessages);
-                if (parsedMessages.length > 0) {
-                    this.messages = [...parsedMessages, ...this.messages];
-                }
-            } catch (e) {
-                console.log('Error loading stored messages:', e);
-            }
-        }
-    }
-
-    startMessageRotation() {
-        this.updateMessage();
-        setInterval(() => {
-            this.updateMessage();
-        }, 10000); // Change message every 10 seconds
-    }
-
-    updateMessage() {
-        if (this.marqueeElement) {
-            const message = this.messages[this.currentMessageIndex];
-            const messageSpan = this.marqueeElement.querySelector('.marquee-message');
-            if (messageSpan) {
-                // Add fade out effect
-                messageSpan.style.opacity = '0';
-                
-                setTimeout(() => {
-                    messageSpan.textContent = message;
-                    // Add fade in effect
-                    messageSpan.style.opacity = '1';
-                }, 300);
-            }
-            
-            this.currentMessageIndex = (this.currentMessageIndex + 1) % this.messages.length;
-        }
-    }
-
-    addMessage(message) {
-        this.messages.unshift(message);
-        this.saveMessagesToStorage();
-        this.updateMessage();
-    }
-
-    saveMessagesToStorage() {
-        try {
-            localStorage.setItem('adminMessages', JSON.stringify(this.messages.slice(0, 10))); // Keep only last 10 messages
-        } catch (e) {
-            console.log('Error saving messages:', e);
-        }
-    }
-
-    checkForUpdates() {
-        // Check for new messages from admin dashboard every 30 seconds
-        setInterval(() => {
-            this.syncWithAdminMessages();
-        }, 30000);
-    }
-
-    syncWithAdminMessages() {
-        // In a real application, this would fetch from server
-        // For demo, we'll check localStorage for updates from admin
-        const adminUpdates = localStorage.getItem('adminMessageUpdates');
-        if (adminUpdates) {
-            try {
-                const updates = JSON.parse(adminUpdates);
-                updates.forEach(update => {
-                    this.addMessage(update);
-                });
-                localStorage.removeItem('adminMessageUpdates'); // Clear after processing
-            } catch (e) {
-                console.log('Error processing admin updates:', e);
-            }
-        }
-    }
-}
-
-// Initialize marquee when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    window.adminMarquee = new AdminMarquee();
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
 });
 
-// Mobile Menu Toggle
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const navUl = document.querySelector('.nav ul');
-
-mobileMenuBtn.addEventListener('click', () => {
-    navUl.classList.toggle('active');
-});
-
-// Smooth Scrolling for Navigation Links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-            // Close mobile menu if open
-            navUl.classList.remove('active');
-        }
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
     });
 });
 
-// Active Navigation Link on Scroll
+// Smooth Scrolling
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Header Scroll Effect
 window.addEventListener('scroll', () => {
-    const sections = document.querySelectorAll('section[id]');
-    const scrollY = window.pageYOffset;
+    const header = document.querySelector('.header');
+    if (window.scrollY > 100) {
+        header.style.background = 'rgba(255, 255, 255, 0.98)';
+        header.style.boxShadow = '0 5px 30px rgba(0, 0, 0, 0.15)';
+    } else {
+        header.style.background = 'rgba(255, 255, 255, 0.95)';
+        header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+    }
+});
 
-    sections.forEach(section => {
-        const sectionHeight = section.offsetHeight;
-        const sectionTop = section.offsetTop - 100;
-        const sectionId = section.getAttribute('id');
-        const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+// Intersection Observer for Animations
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
 
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            navLink?.classList.add('active');
-        } else {
-            navLink?.classList.remove('active');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('loaded');
         }
+    });
+}, observerOptions);
+
+// Observe elements for animation
+document.addEventListener('DOMContentLoaded', () => {
+    const animatedElements = document.querySelectorAll('.service-card, .pricing-card, .about-text, .contact-item');
+    animatedElements.forEach(el => {
+        el.classList.add('loading');
+        observer.observe(el);
     });
 });
 
-// Modal Functions
-function showApplicationForm() {
-    document.getElementById('applicationModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-    document.getElementById('applicationModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-function checkStatus() {
-    document.getElementById('statusModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeStatusModal() {
-    document.getElementById('statusModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-// Close Modal when clicking outside
-window.addEventListener('click', (event) => {
-    if (event.target.classList.contains('modal')) {
-        event.target.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-});
-
-// Application Form Submission
-document.getElementById('applicationForm').addEventListener('submit', function(e) {
+// Booking Form Handler
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const formData = {
-        name: document.getElementById('applicantName').value,
-        aadhar: document.getElementById('aadhar').value,
-        category: document.getElementById('category').value,
-        address: document.getElementById('address').value,
-        income: document.getElementById('income').value
+    const formData = new FormData(this);
+    const bookingData = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        service: formData.get('service'),
+        date: formData.get('date'),
+        time: formData.get('time'),
+        message: formData.get('message')
     };
-
-    // Validate Aadhar number (12 digits)
-    if (!/^\d{12}$/.test(formData.aadhar)) {
-        showNotification('Please enter a valid 12-digit Aadhar number', 'error');
+    
+    // Validate form
+    if (!validateBookingForm(bookingData)) {
         return;
     }
-
-    // Simulate application submission
-    const applicationId = 'APP' + Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
     
-    // Store application data (in real app, this would be sent to server)
-    localStorage.setItem(`application_${applicationId}`, JSON.stringify({
-        ...formData,
-        applicationId: applicationId,
-        submittedDate: new Date().toISOString(),
-        status: 'pending'
-    }));
-
-    showNotification(`Application submitted successfully! Your Application ID is: ${applicationId}`, 'success');
+    // Show success message
+    showBookingSuccess(bookingData);
     
-    // Reset form and close modal
+    // Reset form
     this.reset();
-    closeModal();
 });
 
-// Status Check Form Submission
-document.getElementById('statusForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const applicationId = document.getElementById('applicationId').value;
-    const mobileNumber = document.getElementById('mobileNumber').value;
-    const statusResult = document.getElementById('statusResult');
-
-    // Validate mobile number (10 digits)
-    if (!/^\d{10}$/.test(mobileNumber)) {
-        showNotification('Please enter a valid 10-digit mobile number', 'error');
-        return;
+function validateBookingForm(data) {
+    if (!data.name || !data.email || !data.phone || !data.service || !data.date || !data.time) {
+        showNotification('Please fill in all required fields', 'error');
+        return false;
     }
-
-    // Retrieve application data
-    const applicationData = localStorage.getItem(`application_${applicationId}`);
     
-    if (applicationData) {
-        const data = JSON.parse(applicationData);
-        const submittedDate = new Date(data.submittedDate).toLocaleDateString();
-        const statusMessages = {
-            'pending': 'Your application is under review',
-            'approved': 'Your application has been approved',
-            'rejected': 'Your application has been rejected',
-            'processing': 'Your application is being processed'
-        };
-        
-        statusResult.innerHTML = `
-            <h4>Application Status</h4>
-            <p><strong>Application ID:</strong> ${data.applicationId}</p>
-            <p><strong>Name:</strong> ${data.name}</p>
-            <p><strong>Category:</strong> ${data.category.toUpperCase()}</p>
-            <p><strong>Submitted Date:</strong> ${submittedDate}</p>
-            <p><strong>Status:</strong> <span class="status-badge status-${data.status}">${statusMessages[data.status]}</span></p>
-        `;
-        statusResult.className = 'status-result success';
-        statusResult.style.display = 'block';
-    } else {
-        statusResult.innerHTML = '<p>No application found with this Application ID. Please check your Application ID and try again.</p>';
-        statusResult.className = 'status-result error';
-        statusResult.style.display = 'block';
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+        showNotification('Please enter a valid email address', 'error');
+        return false;
     }
-});
+    
+    // Validate phone
+    const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+    if (!phoneRegex.test(data.phone)) {
+        showNotification('Please enter a valid phone number', 'error');
+        return false;
+    }
+    
+    // Validate date (not in the past)
+    const selectedDate = new Date(data.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+        showNotification('Please select a future date', 'error');
+        return false;
+    }
+    
+    return true;
+}
 
-// Contact Form Submission
+function showBookingSuccess(data) {
+    const serviceNames = {
+        'basic': 'Basic Wash - ₹299',
+        'premium': 'Premium Wash - ₹599',
+        'deluxe': 'Deluxe Detail - ₹1299',
+        'alignment': '3D Wheel Alignment - ₹899'
+    };
+    
+    const message = `
+        <h3>Booking Confirmed!</h3>
+        <p><strong>Name:</strong> ${data.name}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone}</p>
+        <p><strong>Service:</strong> ${serviceNames[data.service]}</p>
+        <p><strong>Date:</strong> ${formatDate(data.date)}</p>
+        <p><strong>Time:</strong> ${formatTime(data.time)}</p>
+        ${data.message ? `<p><strong>Notes:</strong> ${data.message}</p>` : ''}
+        <p>We'll send you a confirmation email shortly!</p>
+    `;
+    
+    showNotification(message, 'success', 5000);
+}
+
+// Contact Form Handler
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        message: document.getElementById('message').value
+    const formData = new FormData(this);
+    const contactData = {
+        name: this.querySelector('input[type="text"]').value,
+        email: this.querySelector('input[type="email"]').value,
+        message: this.querySelector('textarea').value
     };
-
+    
+    // Validate form
+    if (!contactData.name || !contactData.email || !contactData.message) {
+        showNotification('Please fill in all fields', 'error');
+        return;
+    }
+    
     // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
+    if (!emailRegex.test(contactData.email)) {
         showNotification('Please enter a valid email address', 'error');
         return;
     }
-
-    // Validate phone if provided
-    if (formData.phone && !/^\d{10}$/.test(formData.phone)) {
-        showNotification('Please enter a valid 10-digit phone number', 'error');
-        return;
-    }
-
-    // Simulate form submission
-    showNotification('Your message has been sent successfully! We will get back to you soon.', 'success');
+    
+    // Show success message
+    showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
     
     // Reset form
     this.reset();
 });
 
 // Notification System
-function showNotification(message, type = 'info') {
-    // Remove existing notifications
+function showNotification(message, type = 'info', duration = 3000) {
+    // Remove existing notification
     const existingNotification = document.querySelector('.notification');
     if (existingNotification) {
         existingNotification.remove();
     }
-
+    
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
-    notification.textContent = message;
+    notification.innerHTML = message;
     
     // Add styles
     notification.style.cssText = `
         position: fixed;
-        top: 20px;
+        top: 100px;
         right: 20px;
+        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+        color: white;
         padding: 15px 20px;
         border-radius: 8px;
-        color: white;
-        font-weight: 500;
-        z-index: 3000;
-        max-width: 300px;
-        word-wrap: break-word;
-        animation: slideInRight 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        z-index: 10000;
+        max-width: 400px;
+        animation: slideIn 0.3s ease;
+        font-family: 'Poppins', sans-serif;
     `;
-
-    // Set background color based on type
-    const colors = {
-        success: '#28a745',
-        error: '#dc3545',
-        info: '#17a2b8',
-        warning: '#ffc107'
-    };
-    notification.style.backgroundColor = colors[type] || colors.info;
-
-    // Add to document
+    
+    // Add to DOM
     document.body.appendChild(notification);
-
-    // Remove after 5 seconds
+    
+    // Remove after duration
     setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease';
+        notification.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => {
             notification.remove();
         }, 300);
-    }, 5000);
+    }, duration);
 }
 
-// Add animation styles
+// Add animation keyframes
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes slideInRight {
+    @keyframes slideIn {
         from {
             transform: translateX(100%);
             opacity: 0;
@@ -348,7 +227,7 @@ style.textContent = `
         }
     }
     
-    @keyframes slideOutRight {
+    @keyframes slideOut {
         from {
             transform: translateX(0);
             opacity: 1;
@@ -357,162 +236,139 @@ style.textContent = `
             transform: translateX(100%);
             opacity: 0;
         }
-    }
-    
-    .status-badge {
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 0.9rem;
-        font-weight: 600;
-    }
-    
-    .status-pending {
-        background: #fff3cd;
-        color: #856404;
-    }
-    
-    .status-approved {
-        background: #d4edda;
-        color: #155724;
-    }
-    
-    .status-rejected {
-        background: #f8d7da;
-        color: #721c24;
-    }
-    
-    .status-processing {
-        background: #d1ecf1;
-        color: #0c5460;
     }
 `;
 document.head.appendChild(style);
 
-// Form Input Validation
-document.getElementById('aadhar').addEventListener('input', function(e) {
-    this.value = this.value.replace(/\D/g, '').slice(0, 12);
-});
+// Utility Functions
+function formatDate(dateString) {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+}
 
-document.getElementById('mobileNumber').addEventListener('input', function(e) {
-    this.value = this.value.replace(/\D/g, '').slice(0, 10);
-});
+function formatTime(timeString) {
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour > 12 ? hour - 12 : hour;
+    return `${displayHour}:${minutes} ${ampm}`;
+}
 
-document.getElementById('phone').addEventListener('input', function(e) {
-    this.value = this.value.replace(/\D/g, '').slice(0, 10);
-});
-
-document.getElementById('income').addEventListener('input', function(e) {
-    if (this.value < 0) {
-        this.value = 0;
+// Set minimum date for booking (today)
+document.addEventListener('DOMContentLoaded', () => {
+    const dateInput = document.getElementById('date');
+    if (dateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
     }
 });
 
-// Scroll to Top Button
-const scrollToTopBtn = document.createElement('button');
-scrollToTopBtn.innerHTML = '↑';
-scrollToTopBtn.className = 'scroll-to-top';
-scrollToTopBtn.style.cssText = `
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    display: none;
-    z-index: 1000;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-`;
-
-scrollToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+// Pricing Card Click Handlers
+document.querySelectorAll('.pricing-card button').forEach(button => {
+    button.addEventListener('click', function() {
+        const card = this.closest('.pricing-card');
+        const serviceName = card.querySelector('h3').textContent;
+        const servicePrice = card.querySelector('.amount').textContent;
+        
+        // Scroll to booking section
+        scrollToSection('booking');
+        
+        // Pre-select the service
+        setTimeout(() => {
+            const serviceSelect = document.getElementById('service');
+            if (serviceSelect) {
+                const serviceMap = {
+                    'Basic Wash': 'basic',
+                    'Premium Wash': 'premium',
+                    'Deluxe Detail': 'deluxe',
+                    '3D Wheel Alignment': 'alignment'
+                };
+                
+                serviceSelect.value = serviceMap[serviceName] || '';
+                
+                // Highlight the selected service
+                serviceSelect.style.borderColor = '#10b981';
+                setTimeout(() => {
+                    serviceSelect.style.borderColor = '';
+                }, 2000);
+            }
+        }, 500);
+        
+        // Show notification
+        showNotification(`Selected ${serviceName} - ₹${servicePrice}. Please complete the booking form below.`, 'info', 4000);
     });
 });
 
-scrollToTopBtn.addEventListener('mouseenter', () => {
-    scrollToTopBtn.style.transform = 'scale(1.1)';
-});
-
-scrollToTopBtn.addEventListener('mouseleave', () => {
-    scrollToTopBtn.style.transform = 'scale(1)';
-});
-
-document.body.appendChild(scrollToTopBtn);
-
-// Show/Hide Scroll to Top Button
-window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-        scrollToTopBtn.style.display = 'block';
-    } else {
-        scrollToTopBtn.style.display = 'none';
-    }
-});
-
-// Loading Animation for Forms
-function showLoading(formElement) {
-    const submitBtn = formElement.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner"></span> Processing...';
-    
-    // Add spinner styles
-    const spinnerStyle = document.createElement('style');
-    spinnerStyle.textContent = `
-        .spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #ffffff;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 0.8s linear infinite;
-            margin-right: 8px;
-        }
+// Service Card Click Handlers
+document.querySelectorAll('.service-card').forEach(card => {
+    card.addEventListener('click', function() {
+        const serviceName = this.querySelector('h3').textContent;
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    `;
-    document.head.appendChild(spinnerStyle);
+        // Scroll to pricing section
+        scrollToSection('pricing');
+        
+        // Show notification
+        showNotification(`View pricing for ${serviceName} below.`, 'info', 3000);
+    });
+});
+
+// Add hover effect to service cards
+document.querySelectorAll('.service-card').forEach(card => {
+    card.style.cursor = 'pointer';
+});
+
+// Lazy Loading for Images (if any are added later)
+function lazyLoadImages() {
+    const images = document.querySelectorAll('img[data-src]');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
     
-    return () => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
+    images.forEach(img => imageObserver.observe(img));
+}
+
+// Initialize lazy loading
+document.addEventListener('DOMContentLoaded', lazyLoadImages);
+
+// Performance optimization: Debounce scroll events
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
     };
 }
 
-// Initialize page
-document.addEventListener('DOMContentLoaded', function() {
-    // Add smooth reveal animation to elements
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+// Apply debounce to scroll event
+window.addEventListener('scroll', debounce(() => {
+    // Add any scroll-based animations here
+}, 100));
 
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Observe all service cards, eligibility cards, and sections
-    document.querySelectorAll('.service-card, .eligibility-card, .stat-card').forEach(el => {
-        el.style.opacity = '0';
-        observer.observe(el);
+// Add loading state to buttons
+document.querySelectorAll('.btn').forEach(button => {
+    button.addEventListener('click', function() {
+        if (this.type === 'submit') {
+            const originalText = this.textContent;
+            this.textContent = 'Processing...';
+            this.disabled = true;
+            
+            setTimeout(() => {
+                this.textContent = originalText;
+                this.disabled = false;
+            }, 2000);
+        }
     });
 });
 
-// Console welcome message
-console.log('%c🏪 Ration Distribution System', 'font-size: 20px; font-weight: bold; color: #667eea;');
-console.log('%cEnsuring food security for all citizens', 'font-size: 14px; color: #666;');
+console.log('Hind Car Wash website loaded successfully!');
